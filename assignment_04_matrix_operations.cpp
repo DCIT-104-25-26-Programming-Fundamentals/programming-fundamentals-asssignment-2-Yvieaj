@@ -64,4 +64,102 @@
 #include <iomanip>
 #include <string>
 using namespace std;
+void readMatrix(int matrix[10][10], int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            cout << "Enter element [" << i << "][" << j << "]: ";
+            cin >> matrix[i][j];
+        }
+    }
+}
 
+void printMatrix(int matrix[10][10], int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            cout << setw(4) << matrix[i][j];
+        }
+        cout << endl;
+    }
+}
+
+void transpose(int matrix[10][10], int rows, int cols, int result[10][10]) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            result[j][i] = matrix[i][j];
+        }
+    }
+}
+
+void addMatrices(int a[10][10], int b[10][10], int rows, int cols, int result[10][10]) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            result[i][j] = a[i][j] + b[i][j];
+        }
+    }
+}
+
+void multiplyMatrices(int a[10][10], int b[10][10], int rowsA, int colsA, int colsB, int result[10][10]) {
+    for (int i = 0; i < rowsA; i++) {
+        for (int j = 0; j < colsB; j++) {
+            int total = 0;
+            for (int k = 0; k < colsA; k++) {
+                total += a[i][k] * b[k][j];
+            }
+            result[i][j] = total;
+        }
+    }
+}
+
+int main() {
+    int matrix[10][10], transposed[10][10];
+    int rows, cols;
+
+    cout << "--- Part A: Transpose ---" << endl;
+    cout << "Enter number of rows: ";
+    cin >> rows;
+    cout << "Enter number of columns: ";
+    cin >> cols;
+    readMatrix(matrix, rows, cols);
+    cout << "Original Matrix:" << endl;
+    printMatrix(matrix, rows, cols);
+    transpose(matrix, rows, cols, transposed);
+    cout << "Transposed Matrix:" << endl;
+    printMatrix(transposed, cols, rows);
+
+    int matrix1[10][10], matrix2[10][10], sumResult[10][10];
+    int rowsB, colsB;
+    cout << "\n--- Part B: Addition ---" << endl;
+    cout << "Enter number of rows: ";
+    cin >> rowsB;
+    cout << "Enter number of columns: ";
+    cin >> colsB;
+    cout << "Matrix 1:" << endl;
+    readMatrix(matrix1, rowsB, colsB);
+    cout << "Matrix 2:" << endl;
+    readMatrix(matrix2, rowsB, colsB);
+    addMatrices(matrix1, matrix2, rowsB, colsB, sumResult);
+    cout << "Sum:" << endl;
+    printMatrix(sumResult, rowsB, colsB);
+
+    int matrixA[10][10], matrixB[10][10], productResult[10][10];
+    int rowsA, colsA, colsB2;
+    cout << "\n--- Part C: Multiplication ---" << endl;
+    cout << "Enter rows for Matrix A: ";
+    cin >> rowsA;
+    cout << "Enter columns for Matrix A: ";
+    cin >> colsA;
+    cout << "Matrix A:" << endl;
+    readMatrix(matrixA, rowsA, colsA);
+
+    int rowsB2 = colsA;
+    cout << "Enter columns for Matrix B: ";
+    cin >> colsB2;
+    cout << "Matrix B:" << endl;
+    readMatrix(matrixB, rowsB2, colsB2);
+
+    multiplyMatrices(matrixA, matrixB, rowsA, colsA, colsB2, productResult);
+    cout << "Product (A x B):" << endl;
+    printMatrix(productResult, rowsA, colsB2);
+
+    return 0;
+}
